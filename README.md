@@ -1,6 +1,12 @@
 # CachedKeyValueStore
 
-TODO: Write a gem description
+Sending redis a request for each of those thousands of translations scattered
+throughout your app is slow. This gem memoizes those requests, and sets up a
+simple mechanism to bust the cache.
+
+If you want to use Redis for I18n, I recommend you watch
+[this railscast](http://railscasts.com/episodes/256-i18n-backends),
+and use this backend instead of the KeyValue one that he uses.
 
 ## Installation
 
@@ -18,7 +24,29 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+In your initializer:
+
+    I18n.backend = I18n::Backend::CachedKeyValueStore.new($redis)
+
+### Busting the Cache
+
+The ```#ensure_freshness!``` method can be called periodically to make sure
+that new changes show up. I put mine in a before filter:
+
+    class ApplicationController < ActionController::Base
+      before_filter :ensure_fresh_i18n
+
+      private
+      def ensure_fresh_i18n
+        I18n.backend.ensure_freshness! I18n.locale
+      end
+    end
+
+This method will only work if you use the ```#store_translations``` method
+to update your locales.
+
+You can also call ```#update_version!(locale)``` directly to signal that the
+translations have been modified.
 
 ## Contributing
 
