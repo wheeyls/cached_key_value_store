@@ -2,10 +2,12 @@ $:.push File.expand_path('../lib', __FILE__)
 require 'cached_key_value_store/version'
 
 Gem::Specification.new do |s|
-  s.name          = 'cached-key-value-store'
+  s.name          = 'cached_key_value_store'
   s.version       = CachedKeyValueStore::VERSION
   s.summary       = 'An I18n Backend with in-memory cacheing'
-  s.description   = %q{This gem is designed for usage with a key-value store database, where latency is an issue. Locale changes are versioned to allow for an easy cache-bust. }
+  s.description   = %q{This gem is designed for usage with a key-value store
+                       database, where latency is an issue. Locale changes are
+                       versioned to allow for an easy cache-bust. }
   s.authors       = ['Mike Wheeler']
   s.email         = 'mwheeler@g2crowd.com'
 
