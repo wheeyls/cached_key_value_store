@@ -42,11 +42,12 @@ that new changes show up. I put mine in a before filter:
       end
     end
 
-This method will only work if you use the ```#store_translations``` method
-to update your locales.
-
-You can also call ```#update_version!(locale)``` directly to signal that the
+You can also call ```#update_version!(locale)``` yourself to signal that the
 translations have been modified.
+
+The ```on_update_version``` hook will be triggered every time the version is
+updated.
+
 
 ## Contributing
 

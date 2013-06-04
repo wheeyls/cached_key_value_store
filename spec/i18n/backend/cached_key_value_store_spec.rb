@@ -51,4 +51,46 @@ describe I18n::Backend::CachedKeyValueStore do
       store['en.simple'].should match(/test/)
     end
   end
+
+  describe '#update_version!' do
+    it 'writes a timestamp to the store' do
+      Time.should_receive(:now).and_return '123'
+      key = 'i18n:locale_version:en'
+
+      subject.update_version!(:en)
+      store[key].should == 123
+    end
+
+    it 'triggers a hook' do
+      subject.should_receive(:on_update_version).with :en
+      subject.update_version!(:en)
+    end
+  end
+
+  describe '#on_update_version' do
+    context 'with a block' do
+      before do
+        @prc = Proc.new { }
+        subject.on_update_version &@prc
+      end
+
+      it 'stores a block you pass to it' do
+        @prc.should_not_receive(:call)
+        subject.on_update_version { }
+      end
+
+      it 'triggers the block if no block is passed' do
+        @prc.should_receive(:call).with :en
+        subject.on_update_version :en
+      end
+    end
+
+    context 'without a block' do
+      it 'does nothing if no block is passed' do
+        expect {
+          subject.on_update_version
+        }.to_not raise_error
+      end
+    end
+  end
 end

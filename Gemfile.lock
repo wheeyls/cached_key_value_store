@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cached-key-value-store (0.0.0)
+    cached_key_value_store (0.0.1)
       activesupport
 
 GEM
@@ -26,5 +26,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  cached-key-value-store!
+  cached_key_value_store!
   rspec (~> 2.6)
